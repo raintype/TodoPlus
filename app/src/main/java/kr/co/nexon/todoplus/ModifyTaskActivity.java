@@ -43,6 +43,8 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
     TaskInfo taskInfo;
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,8 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         Intent intent = getIntent();
         int id = intent.getIntExtra("taskId", -1);
+
+        position = intent.getIntExtra("position", -1);
 
         if ( id == -1) {
             // Todo Error Message Display
@@ -86,6 +90,8 @@ public class ModifyTaskActivity extends ActionBarActivity {
                     Intent intent = new Intent();
                     intent.putExtra("activityName", "modifyTAskActivity");
                     intent.putExtra("taskId", String.valueOf(taskInfo.getId()));
+                    intent.putExtra("position", String.valueOf(position));
+
 
                     setResult(RESULT_OK,intent);
 

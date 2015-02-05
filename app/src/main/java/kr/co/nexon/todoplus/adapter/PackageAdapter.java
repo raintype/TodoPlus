@@ -179,15 +179,18 @@ public class PackageAdapter extends BaseAdapter {
                 break;
         }
 
-        holder.modifyTask.setTag(item);
+        final int taskId = item.getId();
+
         holder.modifyTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskInfo taskInfo = (TaskInfo) v.getTag();
+                //TaskInfo taskInfo = (TaskInfo) v.getTag(1);
+                MainActivity.swipeListView.closeAnimate(position);
 
                 try {
                     Intent intent = new Intent(context, ModifyTaskActivity.class);
-                    intent.putExtra("taskId", taskInfo.getId());
+                    intent.putExtra("taskId", taskId);
+                    intent.putExtra("position", position);
                     ((Activity) context).startActivityForResult(intent, 1);
                 }
                 catch (Exception ex) {

@@ -374,9 +374,13 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case "modifyTAskActivity":
 
+                    int position = Integer.parseInt(data.getStringExtra("position"));
+
+                    swipeListView.closeAnimate(position);
+
                     new ListAppTask().execute();
 
-                    swipeListView.closeOpenedItems();
+
 
 
 
