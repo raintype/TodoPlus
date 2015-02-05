@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="horizontal">
+    <TextView android:layout_width="0sp" android:layout_height="fill_parent" android:layout_weight="6"
+        android:id="@+id/date_text_view" android:textSize="20sp"
+        android:text="Date"
+        android:gravity="fill_vertical"
+        android:textColor="#FFFFFF" />
+    <LinearLayout android:layout_width="0sp" android:layout_height="fill_parent" android:layout_weight="3"
+        android:orientation="vertical">
+        <TextView android:layout_width="fill_parent" android:layout_height="0sp" android:layout_weight="1"
+            android:id="@+id/completed_text_view" android:textSize="15sp"
+            android:text="0 completed"
+            android:gravity="bottom|right"
+            android:layout_marginRight="5sp"
+            android:textColor="#FFFFFF" />
+        <TextView android:layout_width="fill_parent" android:layout_height="0sp" android:layout_weight="1"
+            android:id="@+id/outstanding_text_view" android:textSize="15sp"
+            android:text="0 outstanding"
+            android:gravity="top|center_vertical|right"
+            android:layout_marginRight="5sp"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</LinearLayout>

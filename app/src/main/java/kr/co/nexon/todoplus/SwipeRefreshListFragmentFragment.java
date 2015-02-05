@@ -16,6 +16,9 @@ import android.widget.ListAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.nexon.todoplus.Entity.TaskInfo;
+import kr.co.nexon.todoplus.Helper.DBContactHelper;
+
 /**
  * A sample which shows how to use {@link android.support.v4.widget.SwipeRefreshLayout} within a
  * {@link android.support.v4.app.ListFragment} to add the 'swipe-to-refresh' gesture to a
@@ -37,12 +40,16 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
 
     private static final int LIST_ITEM_COUNT = 20;
 
+    DBContactHelper db;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Notify the system to allow an options menu for this fragment.
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(false);
+
+        db = new DBContactHelper(getActivity());
     }
 
     // BEGIN_INCLUDE (setup_views)
@@ -50,23 +57,30 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ArrayList<TaskInfo> taskInfoArrayList = db.getAllTask();
 
-        ArrayList<String> items = new ArrayList<String>();
-        items.add(0,"First");
+        TaskInfoAdapter taskAdapter = new TaskInfoAdapter(getActivity(), R.layout.task_info, taskInfoArrayList, "Test");
 
+        MainActivity mainActivity = MainActivity.mainActivity;
 
-        /**
-         * Create an ArrayAdapter to contain the data for the ListView. Each item in the ListView
-         * uses the system-defined simple_list_item_1 layout that contains one TextView.
-         */
-            ListAdapter adapter = new ArrayAdapter<String>(
-                getActivity(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                    items);
+        if (mainActivity != null) {
+            mainActivity.completedCount = 0;
+            mainActivity.outstandingCount = 0;
+
+            for (TaskInfo taskInfo : taskInfoArrayList) {
+                if (taskInfo.getCompleted()) {
+                    mainActivity.completedCount++;
+                } else {
+                    mainActivity.outstandingCount++;
+                }
+            }
+
+            mainActivity.updateState();
+        }
 
         // Set the adapter between the ListView and its backing data.
-        setListAdapter(adapter);
+        setListAdapter(taskAdapter);
+
 
         // BEGIN_INCLUDE (setup_refreshlistener)
         /**
@@ -131,30 +145,57 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
      * When the AsyncTask finishes, it calls onRefreshComplete(), which updates the data in the
      * ListAdapter and turns off the progress bar.
      */
-    private void onRefreshComplete(List<String> result) {
+    private void onRefreshComplete(List<TaskInfo> result) {
         Log.i(LOG_TAG, "onRefreshComplete");
 
         // Remove all items from the ListAdapter, and then replace them with the new items
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) getListAdapter();
+        ArrayAdapter<TaskInfo> adapter = (ArrayAdapter<TaskInfo>) getListAdapter();
         adapter.clear();
-        for (String cheese : result) {
-            adapter.add(cheese);
+        
+        MainActivity mainActivity = MainActivity.mainActivity;
+
+        if (mainActivity != null) {
+            mainActivity.completedCount = 0;
+            mainActivity.outstandingCount = 0;
+
+            for (int i = result.size() -1 ; i >= 0 ; i--) {
+                adapter.add(result.get(i));
+
+                if (result.get(i).getCompleted()){
+                    mainActivity.completedCount++;
+                } else {
+                    mainActivity.outstandingCount++;
+                }
+            }
+
+            mainActivity.updateState();
         }
 
-        // Stop the refreshing indicator
         setRefreshing(false);
     }
     // END_INCLUDE (refresh_complete)
 
+    public void Refresh(){
+        Log.i(LOG_TAG, "Refresh menu item selected");
+
+        // We make sure that the SwipeRefreshLayout is displaying it's refreshing indicator
+        if (!isRefreshing()) {
+            setRefreshing(true);
+        }
+
+        // Start our refresh background task
+        initiateRefresh();
+    }
+
     /**
      * Dummy {@link android.os.AsyncTask} which simulates a long running task to fetch new cheeses.
      */
-    private class DummyBackgroundTask extends AsyncTask<Void, Void, List<String>> {
+    private class DummyBackgroundTask extends AsyncTask<Void, Void, List<TaskInfo>> {
 
-        static final int TASK_DURATION = 3 * 1000; // 3 seconds
+        static final int TASK_DURATION = 2 * 1000; // 3 seconds
 
         @Override
-        protected List<String> doInBackground(Void... params) {
+        protected List<TaskInfo> doInBackground(Void... params) {
             // Sleep for a small amount of time to simulate a background-task
             try {
                 Thread.sleep(TASK_DURATION);
@@ -162,15 +203,14 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
                 e.printStackTrace();
             }
 
-            // Return a new random list of cheeses
-            ArrayList<String> items = new ArrayList<String>();
-            items.add(0,"First");
+            db = new DBContactHelper(getActivity());
+            ArrayList<TaskInfo> taskInfoArrayList= db.getAllTask();
 
-            return items;
+            return taskInfoArrayList;
         }
 
         @Override
-        protected void onPostExecute(List<String> result) {
+        protected void onPostExecute(List<TaskInfo> result) {
             super.onPostExecute(result);
 
             // Tell the Fragment that the refresh has completed
@@ -180,3 +220,4 @@ public class SwipeRefreshListFragmentFragment extends SwipeRefreshListFragment {
     }
 
 }
+

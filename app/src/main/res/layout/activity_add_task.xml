@@ -1,0 +1,65 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:background="#EEEEEE" android:id="@+id/inLayouts" android:orientation="vertical">
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10sp" android:layout_marginBottom="10sp">
+        <EditText
+            android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="8"
+            android:id="@+id/edit_Text"
+            android:layout_marginLeft="10sp" android:layout_marginRight="10sp"
+            android:focusableInTouchMode="true" android:singleLine="true"
+            android:maxLength="15" android:textColor="#848382"
+            style="@style/EditTextCustomHolo">
+        </EditText>
+        <Button android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="2"
+            android:text="OK" android:id="@+id/result_button" android:layout_marginRight="10sp" />
+    </LinearLayout>
+
+    <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:background="#FFFFFF"
+        android:layout_marginTop="10sp" android:layout_marginLeft="5sp" android:layout_marginRight="5sp"
+        android:layout_gravity="center"
+        android:padding="10sp">
+
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/menu_calendar" android:id="@+id/calendar"
+            android:background="@color/disabled" />
+
+        <TextView android:layout_width="0dp" android:layout_height="match_parent"
+            android:id="@+id/today" android:text="Today"
+            android:layout_alignParentEnd="true" android:layout_alignParentStart="true"
+            android:gravity="center|fill_vertical" android:textSize="15sp"
+
+            android:textColor="@color/disabled"
+            android:layout_weight="1" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent"
+            android:id="@+id/tomorrow" android:text="Tomorrow"
+            android:layout_alignParentEnd="true" android:layout_alignParentStart="true"
+            android:gravity="center|fill_vertical" android:textSize="15sp"
+
+            android:textColor="@color/disabled"
+            android:layout_weight="1.5" />
+        <TextView android:layout_width="0dp" android:layout_height="match_parent"
+            android:id="@+id/none" android:text="None"
+            android:layout_alignParentEnd="true" android:layout_alignParentStart="true"
+            android:gravity="center|fill_vertical" android:textSize="15sp"
+            android:textColor="@color/main"
+            android:layout_weight="1" />
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/menu_star" android:id="@+id/star"
+            android:background="@color/disabled" />
+
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/menu_lock" android:id="@+id/lock"
+            android:background="@color/disabled" />
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

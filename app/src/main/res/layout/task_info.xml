@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal" android:padding="6sp" android:gravity="center_vertical">
+    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/checkBox1" android:layout_alignParentLeft="true"
+        android:focusable="false" android:focusableInTouchMode="false"
+        android:text="CheckBox" android:textColor="#848382"
+        android:layout_marginRight="10sp" android:layout_marginTop="10sp" android:layout_marginBottom="10sp" />
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:src="@drawable/star" android:id="@+id/star" android:layout_toRightOf="@+id/checkBox1" />
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:src="@drawable/lock" android:id="@+id/lock" android:layout_toRightOf="@+id/star" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/date" android:layout_toRightOf="@+id/lock"
+        android:text="date" android:textColor="#EE0000" android:textSize="10sp" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/code" android:layout_toRightOf="@+id/date" android:visibility="invisible" android:text="TextView" />
+</LinearLayout>
