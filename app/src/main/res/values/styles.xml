@@ -6,6 +6,8 @@
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+
+        <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
@@ -13,6 +15,10 @@
 
         <!-- Support library compatibility -->
         <item name="background">@color/main</item>
+    </style>
+
+    <style name="CheckBoxAppTheme" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/apptheme_btn_check_holo_light</item>
     </style>
 
 

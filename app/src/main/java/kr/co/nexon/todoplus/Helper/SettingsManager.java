@@ -6,7 +6,7 @@ import com.fortysevendeg.swipelistview.SwipeListView;
  * Created by raintype on 2015-02-05.
  */
 public class SettingsManager {
-    private int swipeMode = SwipeListView.SWIPE_MODE_BOTH;
+    private int swipeMode = SwipeListView.SWIPE_MODE_LEFT;
     private boolean swipeOpenOnLongPress = true;
     private boolean swipeCloseAllItemsWhenMoveList = true;
     private long swipeAnimationTime = 0;

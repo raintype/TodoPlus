@@ -1,6 +1,7 @@
 package kr.co.nexon.todoplus.adapter;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import kr.co.nexon.todoplus.Enums.DateType;
 import kr.co.nexon.todoplus.Helper.CommonHelper;
 import kr.co.nexon.todoplus.Helper.DBContactHelper;
 import kr.co.nexon.todoplus.MainActivity;
+import kr.co.nexon.todoplus.ModifyTaskActivity;
 import kr.co.nexon.todoplus.R;
 
 
@@ -63,7 +65,7 @@ public class PackageAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = li.inflate(R.layout.package_row, parent, false);
+            convertView = li.inflate(R.layout.task_info, parent, false);
 
 
             holder = new ViewHolder();
@@ -75,6 +77,7 @@ public class PackageAdapter extends BaseAdapter {
             holder.back = (LinearLayout) convertView.findViewById(R.id.back);
 
 
+            holder.modifyTask = (TextView) convertView.findViewById(R.id.modify_task);
             holder.removeTask = (TextView) convertView.findViewById(R.id.remove_task);
 
             convertView.setTag(holder);
@@ -91,30 +94,7 @@ public class PackageAdapter extends BaseAdapter {
 
 
 
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
 
-                TaskInfo taskInfo = (TaskInfo) checkBox.getTag();
-                taskInfo.setCompleted(checkBox.isChecked());
-
-                // DB Update
-                DBContactHelper db = new DBContactHelper(context);
-                db.updateTaskInfo(taskInfo);
-
-                if (taskInfo.getCompleted()) {
-                    checkBox.setPaintFlags(checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    ((MainActivity) context).completedCount++;
-                    ((MainActivity) context).outstandingCount--;
-                } else {
-                    checkBox.setPaintFlags(checkBox.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
-                    ((MainActivity) context).completedCount--;
-                    ((MainActivity) context).outstandingCount++;
-                }
-
-                ((MainActivity) context).updateState();
-            }
-        });
 
 
         holder.code.setText(" (" + item.getId() + ")");
@@ -142,6 +122,32 @@ public class PackageAdapter extends BaseAdapter {
         if (holder.name.isChecked()) {
             holder.name.setPaintFlags(holder.name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+
+                TaskInfo taskInfo = (TaskInfo) checkBox.getTag();
+                taskInfo.setCompleted(checkBox.isChecked());
+
+                // DB Update
+                DBContactHelper db = new DBContactHelper(context);
+                db.updateTaskInfo(taskInfo);
+
+                if (taskInfo.getCompleted()) {
+                    checkBox.setPaintFlags(checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    ((MainActivity) context).completedCount++;
+                    ((MainActivity) context).outstandingCount--;
+                } else {
+                    checkBox.setPaintFlags(checkBox.getPaintFlags() ^ Paint.STRIKE_THRU_TEXT_FLAG);
+                    ((MainActivity) context).completedCount--;
+                    ((MainActivity) context).outstandingCount++;
+                }
+
+                ((MainActivity) context).updateState();
+            }
+        });
+
 
         DateType dateType = DateType.values()[item.getDateType()];
 
@@ -173,6 +179,23 @@ public class PackageAdapter extends BaseAdapter {
                 break;
         }
 
+        holder.modifyTask.setTag(item);
+        holder.modifyTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TaskInfo taskInfo = (TaskInfo) v.getTag();
+
+                try {
+                    Intent intent = new Intent(context, ModifyTaskActivity.class);
+                    intent.putExtra("taskId", taskInfo.getId());
+                    ((Activity) context).startActivityForResult(intent, 1);
+                }
+                catch (Exception ex) {
+                    Log.e("TaskInfoAdapter", ex.getMessage());
+                }
+            }
+        });
+
 
         holder.removeTask.setTag(position);
         holder.removeTask.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +218,7 @@ public class PackageAdapter extends BaseAdapter {
         TextView date;
 
 
+        TextView modifyTask;
         TextView removeTask;
 
 

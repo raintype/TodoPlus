@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android" android:paddingLeft="10sp" android:paddingRight="10sp"
+    android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="10sp"
+        android:id="@+id/linearLayout" android:layout_marginBottom="10sp">
+        <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:src="@drawable/settings" android:id="@+id/imageView" android:layout_gravity="center_vertical" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/settings" android:layout_gravity="center_vertical"
+            android:textSize="20sp" android:layout_marginLeft="10sp"
+            android:textColor="#848382" android:textStyle="bold" />
+    </LinearLayout>
+
+    <View android:layout_width="fill_parent" android:layout_height="1sp" android:background="#848382" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:id="@+id/textViewLockScreen" android:text="@string/lock_screen"
+        android:layout_gravity="center_vertical" android:textSize="10sp" android:textStyle="bold"
+        android:layout_marginTop="20sp" />
+    <View android:layout_width="fill_parent" android:layout_height="1sp" android:background="#848382" />
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10sp">
+        <ImageView android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="15" android:src="@drawable/settings_lock" android:layout_gravity="center_vertical" />
+        <Switch android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="85"
+            android:text="@string/lock_screen" android:id="@+id/switchLockScreen" android:layout_marginRight="10sp"
+            android:textOn="On" android:textOff="Off" android:textColor="#848382"
+            android:textSize="18sp" android:layout_marginTop="20sp" android:layout_marginBottom="20sp" />
+    </LinearLayout>
+
+    <View android:layout_width="fill_parent" android:layout_height="0.5sp" android:background="#848382" />
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10sp">
+        <ImageView android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="15" android:src="@drawable/settings_daytime" android:layout_gravity="center_vertical" />
+        <Switch android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="85"
+            android:text="@string/day_time" android:id="@+id/switchDayTime"
+            android:textOn="On" android:textOff="Off" android:textColor="#848382" android:textSize="18sp"
+            android:layout_marginTop="20sp" android:layout_marginBottom="20sp" android:layout_marginRight="10sp" />
+    </LinearLayout>
+
+    <View android:layout_width="fill_parent" android:layout_height="0.5sp" android:background="#848382" android:layout_below="@+id/textViewLockScreen" />
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"  android:layout_marginLeft="10sp">
+        <ImageView android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="15"
+            android:src="@drawable/settings_duedate" android:layout_gravity="center_vertical" />
+        <Switch android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="85"
+            android:text="@string/due_date" android:id="@+id/switchDueDate"
+            android:textOn="On" android:textOff="Off" android:textColor="#848382" android:textSize="18sp"
+            android:layout_marginTop="20sp" android:layout_marginBottom="20sp" android:layout_marginRight="10sp" />
+    </LinearLayout>
+
+    <TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:id="@+id/textViewTask" android:text="@string/task" android:layout_marginTop="10sp"
+        android:layout_gravity="center_vertical" android:textSize="10sp" android:textStyle="bold" />
+    <View android:layout_width="fill_parent" android:layout_height="1sp" android:background="#848382" android:layout_below="@+id/textViewLockScreen" />
+
+
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="20sp" android:layout_marginBottom="20sp">
+        <ImageView android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="15"
+            android:src="@drawable/settings_delete" android:layout_gravity="center_vertical" />
+        <TextView android:layout_width="0sp" android:layout_height="fill_parent" android:layout_weight="60"
+            android:text="@string/completed_task" android:gravity="left|center_vertical"
+            android:textColor="#848382" android:textSize="18sp" />
+        <LinearLayout android:layout_width="0sp" android:layout_height="wrap_content" android:layout_weight="25" android:gravity="end">
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/button_delete_all" android:id="@+id/button_delete_all"
+                android:textSize="10sp" android:textColor="#848382" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
