@@ -126,7 +126,7 @@ public class DBContactHelper extends SQLiteOpenHelper {
         return taskInfoArrayList;
     }
 
-    public ArrayList<TaskInfo> getLockScreenTask() throws Exception {
+    public ArrayList<TaskInfo> getLockScreenTask() {
         ArrayList<TaskInfo> taskInfoArrayList = new ArrayList<TaskInfo>();
 
         // Select All Query
@@ -149,7 +149,11 @@ public class DBContactHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                taskInfoArrayList.add(getTaskInfo(cursor));
+                try {
+                    taskInfoArrayList.add(getTaskInfo(cursor));
+                } catch (Exception ex) {
+
+                }
             } while (cursor.moveToNext());
         }
 

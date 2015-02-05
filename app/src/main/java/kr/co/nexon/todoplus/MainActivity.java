@@ -374,9 +374,9 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case "modifyTAskActivity":
 
-                    swipeListView.closeOpenedItems();
-
                     new ListAppTask().execute();
+
+                    swipeListView.closeOpenedItems();
 
 
 

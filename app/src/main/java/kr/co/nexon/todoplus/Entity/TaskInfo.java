@@ -1,6 +1,8 @@
 package kr.co.nexon.todoplus.Entity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.renderscript.Int2;
 
 import java.util.*;

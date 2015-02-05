@@ -38,7 +38,7 @@ public class ScreenService extends Service {
 
         // Notification에 서비스 등록
         // id 값을 0으로 설정하여 Notification Icon 이 나타나지 않게 한다.
-        startForeground(1, new Notification());
+        startForeground(0, new Notification());
 
         return START_REDELIVER_INTENT;
     }
