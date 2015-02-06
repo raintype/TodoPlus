@@ -54,7 +54,6 @@ public class AddTaskActivity extends ActionBarActivity {
         actionBar.setTitle(R.string.add_task);
 
 
-
         addTaskActivity = this;
 
         db = new DBContactHelper(this);
@@ -158,11 +157,7 @@ public class AddTaskActivity extends ActionBarActivity {
             public void onClick(View v) {
                 taskInfo.setImportant(!taskInfo.getImportant());
 
-                if (taskInfo.getImportant()) {
-                    v.setBackgroundColor(getResources().getColor(R.color.main));
-                } else {
-                    v.setBackgroundColor(getResources().getColor(R.color.disabled));
-                }
+                setStarDisplay(taskInfo.getImportant());
             }
         });
 
@@ -171,11 +166,7 @@ public class AddTaskActivity extends ActionBarActivity {
             public void onClick(View v) {
                 taskInfo.setSecret(!taskInfo.getSecret());
 
-                if (taskInfo.getSecret()) {
-                    v.setBackgroundColor(getResources().getColor(R.color.main));
-                } else {
-                    v.setBackgroundColor(getResources().getColor(R.color.disabled));
-                }
+                setLockDisplay(taskInfo.getSecret());
             }
         });
     }
@@ -212,30 +203,46 @@ public class AddTaskActivity extends ActionBarActivity {
 
         switch (dateType) {
             case None :
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
 
                 none.setTextColor(selectedTextColor);
                 break;
             case Calendar:
-                calendar.setBackgroundColor(selectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_on);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
                 none.setTextColor(notSelectedTextColor);
                 break;
             case Today:
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(selectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
                 none.setTextColor(notSelectedTextColor);
                 break;
             case Tomorrow:
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(selectedTextColor);
                 none.setTextColor(notSelectedTextColor);
                 break;
+        }
+    }
+
+    private void setStarDisplay(boolean isImportant) {
+        if (isImportant) {
+            star.setImageResource(R.drawable.ic_star_on);
+        } else {
+            star.setImageResource(R.drawable.ic_star_off);
+        }
+    }
+
+    private void setLockDisplay(boolean isSecret) {
+        if (isSecret) {
+            lock.setImageResource(R.drawable.ic_lock_on);
+        } else {
+            lock.setImageResource(R.drawable.ic_lock_off);
         }
     }
 }

@@ -381,9 +381,6 @@ public class MainActivity extends ActionBarActivity {
                     new ListAppTask().execute();
 
 
-
-
-
                     break;
             }
         }

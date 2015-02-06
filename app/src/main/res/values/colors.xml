@@ -4,6 +4,8 @@
     <color name="disabled">#929292</color>
     <color name="remove">#ff0000</color>
 
+    <color name="apptheme_color">#03a9f4</color>
+
     <color name="background_app">#dedede</color>
 
     <color name="background_list_back">#e3e3e3</color>

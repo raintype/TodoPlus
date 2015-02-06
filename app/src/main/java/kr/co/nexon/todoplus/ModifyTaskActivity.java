@@ -213,13 +213,13 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         lock = (ImageView)findViewById(R.id.lock);
 
-        setLock(taskInfo.getSecret());
+        setLockDisplay(taskInfo.getSecret());
 
         lock.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 taskInfo.setSecret(!taskInfo.getSecret());
 
-                setLock(taskInfo.getSecret());
+                setLockDisplay(taskInfo.getSecret());
             }
         });
     }
@@ -261,26 +261,26 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         switch (dateType) {
             case None :
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
 
                 none.setTextColor(selectedTextColor);
                 break;
             case Calendar:
-                calendar.setBackgroundColor(selectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_on);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
                 none.setTextColor(notSelectedTextColor);
                 break;
             case Today:
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(selectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
                 none.setTextColor(notSelectedTextColor);
                 break;
             case Tomorrow:
-                calendar.setBackgroundColor(notSelectedTextColor);
+                calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(selectedTextColor);
                 none.setTextColor(notSelectedTextColor);
@@ -291,17 +291,17 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
     private void setStarDisplay(boolean isImportant) {
         if (isImportant) {
-            star.setBackgroundColor(getResources().getColor(R.color.main));
+            star.setImageResource(R.drawable.ic_star_on);
         } else {
-            star.setBackgroundColor(getResources().getColor(R.color.disabled));
+            star.setImageResource(R.drawable.ic_star_off);
         }
     }
 
-    private void setLock(boolean isSecret) {
+    private void setLockDisplay(boolean isSecret) {
         if (isSecret) {
-            lock.setBackgroundColor(getResources().getColor(R.color.main));
+            lock.setImageResource(R.drawable.ic_lock_on);
         } else {
-            lock.setBackgroundColor(getResources().getColor(R.color.disabled));
+            lock.setImageResource(R.drawable.ic_lock_off);
         }
     }
 }

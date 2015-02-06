@@ -55,8 +55,8 @@ public class CommonHelper {
 
     public static String getCurrentDate() {
         final Calendar c = Calendar.getInstance();
-        String month = new DateFormatSymbols(Locale.US).getShortMonths()[c.get(Calendar.MONTH)];
-        String week = new DateFormatSymbols(Locale.US).getShortWeekdays()[c.get(Calendar.DAY_OF_WEEK)];
+        String month = new DateFormatSymbols(Locale.US).getMonths()[c.get(Calendar.MONTH)];
+        String week = new DateFormatSymbols(Locale.US).getWeekdays()[c.get(Calendar.DAY_OF_WEEK)];
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         return String.format("%s, %s %d", week, month, day);

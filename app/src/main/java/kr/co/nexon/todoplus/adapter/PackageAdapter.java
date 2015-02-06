@@ -77,8 +77,8 @@ public class PackageAdapter extends BaseAdapter {
             holder.back = (LinearLayout) convertView.findViewById(R.id.back);
 
 
-            holder.modifyTask = (TextView) convertView.findViewById(R.id.modify_task);
-            holder.removeTask = (TextView) convertView.findViewById(R.id.remove_task);
+            holder.modifyTask = (LinearLayout) convertView.findViewById(R.id.modify_task);
+            holder.removeTask = (LinearLayout) convertView.findViewById(R.id.remove_task);
 
             convertView.setTag(holder);
 
@@ -221,8 +221,8 @@ public class PackageAdapter extends BaseAdapter {
         TextView date;
 
 
-        TextView modifyTask;
-        TextView removeTask;
+        LinearLayout modifyTask;
+        LinearLayout removeTask;
 
 
         LinearLayout back;

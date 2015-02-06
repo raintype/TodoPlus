@@ -8,6 +8,10 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
 
         <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
+
+
+
+
     </style>
 
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
