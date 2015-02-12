@@ -44,6 +44,7 @@ public class AddTaskActivity extends ActionBarActivity {
     DBContactHelper db;
 
     TaskInfo taskInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +54,10 @@ public class AddTaskActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.add_task);
 
-
         addTaskActivity = this;
 
         db = new DBContactHelper(this);
         taskInfo = new TaskInfo();
-
 
         editText = (EditText)findViewById(R.id.edit_Text);
 
@@ -179,12 +178,6 @@ public class AddTaskActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
         return super.onOptionsItemSelected(item);
     }
 

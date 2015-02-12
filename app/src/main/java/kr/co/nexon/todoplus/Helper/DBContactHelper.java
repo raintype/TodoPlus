@@ -56,9 +56,6 @@ public class DBContactHelper extends SQLiteOpenHelper {
 
         Log.i("DB", CREATE_CONTACTS_TABLE);
         db.execSQL(CREATE_CONTACTS_TABLE);
-
-
-
     }
 
     // Upgrading database
@@ -160,7 +157,7 @@ public class DBContactHelper extends SQLiteOpenHelper {
         return taskInfoArrayList;
     }
 
-    public TaskInfo getTask(int id)  throws Exception {
+    public TaskInfo getTask(int id)  {
         String selectQuery = "SELECT "
                 + KEY_ID + ", "
                 + KEY_NAME + ", "
@@ -177,7 +174,13 @@ public class DBContactHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        TaskInfo taskinfo = getTaskInfo(cursor);
+        TaskInfo taskinfo = null;
+        try {
+            taskinfo = getTaskInfo(cursor);
+        } catch (Exception ex) {
+            // Todo : Exception
+            Log.e("DBContactHelper.getTask", ex.getMessage());
+        }
 
         return taskinfo;
     }

@@ -1,46 +1,33 @@
 package kr.co.nexon.todoplus.adapter;
 
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.content.*;
 import android.graphics.Paint;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
-
 import com.fortysevendeg.swipelistview.SwipeListView;
 
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import kr.co.nexon.todoplus.Entity.TaskInfo;
 import kr.co.nexon.todoplus.Enums.DateType;
-import kr.co.nexon.todoplus.Helper.CommonHelper;
-import kr.co.nexon.todoplus.Helper.DBContactHelper;
+import kr.co.nexon.todoplus.Helper.*;
 import kr.co.nexon.todoplus.MainActivity;
 import kr.co.nexon.todoplus.ModifyTaskActivity;
 import kr.co.nexon.todoplus.R;
 
-
 public class PackageAdapter extends BaseAdapter {
-
     private List<TaskInfo> data;
     private Context context;
+    private DBContactHelper db;
 
     public PackageAdapter(Context context, List<TaskInfo> data) {
         this.context = context;
         this.data = data;
+
+        db = new DBContactHelper(context);
     }
 
     @Override
@@ -61,12 +48,11 @@ public class PackageAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final TaskInfo item = getItem(position);
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = li.inflate(R.layout.task_info, parent, false);
-
 
             holder = new ViewHolder();
             holder.code = (TextView) convertView.findViewById(R.id.code);
@@ -74,28 +60,16 @@ public class PackageAdapter extends BaseAdapter {
             holder.star = (ImageView) convertView.findViewById(R.id.star);
             holder.lock = (ImageView) convertView.findViewById(R.id.lock);
             holder.date = (TextView) convertView.findViewById(R.id.date);
-            holder.back = (LinearLayout) convertView.findViewById(R.id.back);
-
 
             holder.modifyTask = (LinearLayout) convertView.findViewById(R.id.modify_task);
             holder.removeTask = (LinearLayout) convertView.findViewById(R.id.remove_task);
 
             convertView.setTag(holder);
-
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-
         ((SwipeListView) parent).recycle(convertView, position);
-
-
-        //TaskInfo taskInfo = taskInfoList.get(position);
-
-
-
-
-
 
         holder.code.setText(" (" + item.getId() + ")");
 
@@ -130,8 +104,6 @@ public class PackageAdapter extends BaseAdapter {
                 TaskInfo taskInfo = (TaskInfo) checkBox.getTag();
                 taskInfo.setCompleted(checkBox.isChecked());
 
-                // DB Update
-                DBContactHelper db = new DBContactHelper(context);
                 db.updateTaskInfo(taskInfo);
 
                 if (taskInfo.getCompleted()) {
@@ -148,35 +120,28 @@ public class PackageAdapter extends BaseAdapter {
             }
         });
 
-
         DateType dateType = DateType.values()[item.getDateType()];
 
-        switch (dateType) {
-            case None:
-                holder.date.setText("");
-                break;
-            case Calendar:
-            case Today:
-            case Tomorrow:
-                Calendar cal = item.getPeriod();
-                Calendar todayCal = Calendar.getInstance();
+        if (dateType == DateType.None) {
+            holder.date.setText("");
+        } else {
+            Calendar cal = item.getPeriod();
+            Calendar todayCal = Calendar.getInstance();
 
-                long diffDay = CommonHelper.getDateDiff(cal, todayCal);
+            long diffDay = CommonHelper.getDateDiff(cal, todayCal);
 
-                if (diffDay == 0) {
-                    holder.date.setText(R.string.today);
-                } else if (diffDay == 1) {
-                    holder.date.setText(R.string.tomorrow);
-                } else {
-                    String month = new DateFormatSymbols(Locale.US).getShortMonths()[cal.get(Calendar.MONTH)];
-                    String week = new DateFormatSymbols(Locale.US).getShortWeekdays()[cal.get(Calendar.DAY_OF_WEEK)];
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
-                    String dateString = String.format("%s, %s %d", week, month, day);
+            if (diffDay == 0) {
+                holder.date.setText(R.string.today);
+            } else if (diffDay == 1) {
+                holder.date.setText(R.string.tomorrow);
+            } else {
+                String month = new DateFormatSymbols(Locale.US).getShortMonths()[cal.get(Calendar.MONTH)];
+                String week = new DateFormatSymbols(Locale.US).getShortWeekdays()[cal.get(Calendar.DAY_OF_WEEK)];
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                String dateString = String.format("%s, %s %d", week, month, day);
 
-                    holder.date.setText(dateString);
-                }
-
-                break;
+                holder.date.setText(dateString);
+            }
         }
 
         final int taskId = item.getId();
@@ -184,31 +149,28 @@ public class PackageAdapter extends BaseAdapter {
         holder.modifyTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TaskInfo taskInfo = (TaskInfo) v.getTag(1);
                 MainActivity.swipeListView.closeAnimate(position);
 
-                try {
-                    Intent intent = new Intent(context, ModifyTaskActivity.class);
-                    intent.putExtra("taskId", taskId);
-                    intent.putExtra("position", position);
-                    ((Activity) context).startActivityForResult(intent, 1);
-                }
-                catch (Exception ex) {
-                    Log.e("TaskInfoAdapter", ex.getMessage());
-                }
+                Intent intent = new Intent(context, ModifyTaskActivity.class);
+                intent.putExtra("taskId", taskId);
+                intent.putExtra("position", position);
+
+                ((Activity) context).startActivityForResult(intent, 1);
             }
         });
-
 
         holder.removeTask.setTag(position);
         holder.removeTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = (int)v.getTag();
+                TaskInfo taskInfo = (TaskInfo) holder.name.getTag();
+                taskInfo.setUseYN(false);
+                db.updateTaskInfo(taskInfo);
+
                 MainActivity.swipeListView.dismiss(position);
             }
         });
-
 
         return convertView;
     }
@@ -220,20 +182,7 @@ public class PackageAdapter extends BaseAdapter {
         ImageView lock;
         TextView date;
 
-
         LinearLayout modifyTask;
         LinearLayout removeTask;
-
-
-        LinearLayout back;
     }
-
-    private boolean isPlayStoreInstalled() {
-        Intent market = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=dummy"));
-        PackageManager manager = context.getPackageManager();
-        List<ResolveInfo> list = manager.queryIntentActivities(market, 0);
-
-        return list.size() > 0;
-    }
-
 }

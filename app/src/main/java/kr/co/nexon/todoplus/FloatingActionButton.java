@@ -25,7 +25,6 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 public class FloatingActionButton extends View {
-
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private final Paint mButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mDrawablePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -53,7 +52,6 @@ public class FloatingActionButton extends View {
     public FloatingActionButton(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, 0);
     }
-
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -166,12 +164,6 @@ public class FloatingActionButton extends View {
             ObjectAnimator animator = ObjectAnimator.ofFloat(this, "y", mHidden ? mYHidden : mYDisplayed).setDuration(500);
             animator.setInterpolator(mInterpolator);
             animator.start();
-        }
-    }
-
-    public void listenTo(AbsListView listView) {
-        if (null != listView) {
-            listView.setOnScrollListener(new DirectionScrollListener(this));
         }
     }
 }

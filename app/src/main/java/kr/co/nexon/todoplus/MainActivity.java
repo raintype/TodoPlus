@@ -1,67 +1,28 @@
 package kr.co.nexon.todoplus;
 
-
-import android.app.Activity;
-
-
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.app.*;
+import android.content.*;
+import android.os.*;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
-import com.fortysevendeg.swipelistview.BaseSwipeListViewListener;
-import com.fortysevendeg.swipelistview.SwipeListView;
+import com.fortysevendeg.swipelistview.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import kr.co.nexon.todoplus.Entity.SettingInfo;
-import kr.co.nexon.todoplus.Entity.TaskInfo;
-import kr.co.nexon.todoplus.Helper.CommonHelper;
-import kr.co.nexon.todoplus.Helper.DBContactHelper;
-//import kr.co.nexon.todoplus.Helper.PreferencesManager;
-import kr.co.nexon.todoplus.Helper.SettingsManager;
+import kr.co.nexon.todoplus.Entity.*;
+import kr.co.nexon.todoplus.Helper.*;
 import kr.co.nexon.todoplus.adapter.PackageAdapter;
-
-
 
 public class MainActivity extends ActionBarActivity {
     public static MainActivity mainActivity;
     final Context context = this;
 
-    private static final int REQUEST_CODE_SETTINGS = 0;
-
-
     private PackageAdapter adapter;
-
-
 
     private List<TaskInfo> taskInfoList;
 
@@ -69,26 +30,19 @@ public class MainActivity extends ActionBarActivity {
 
     private ProgressDialog progressDialog;
 
-
     DBContactHelper db;
-
 
     private LinearLayout left_drawer;
     private DrawerLayout mDrawerLayout;
 
-
-
     public int completedCount = 0;
     public int outstandingCount = 0;
 
-    SwipeRefreshListFragmentFragment fragment;
-
     TextView dateTextView;
     TextView completedTextView;
-    TextView outstandingTextTiew;
+    TextView outstandingTextView;
 
     FloatingActionButton mFab;
-
 
     Switch switchLockScreen;
     Switch switchDayTime;
@@ -114,14 +68,9 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         dateTextView =  (TextView) findViewById(R.id.date_text_view);
         completedTextView =  (TextView) findViewById(R.id.completed_text_view);
-        outstandingTextTiew = (TextView) findViewById(R.id.outstanding_text_view);
+        outstandingTextView = (TextView) findViewById(R.id.outstanding_text_view);
 
         dateTextView.setText(CommonHelper.getCurrentDate());
-
-
-
-
-
 
         taskInfoList = new ArrayList<>();
 
@@ -135,24 +84,16 @@ public class MainActivity extends ActionBarActivity {
             swipeListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
                 @Override
-                public void onItemCheckedStateChanged(ActionMode mode, int position,
-                                                      long id, boolean checked) {
-                    //mode.setTitle("Selected (" + swipeListView.getCountSelected() + ")");
+                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 }
 
                 @Override
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                    switch (item.getItemId()) {
-
-                        default:
-                            return false;
-                    }
+                    return false;
                 }
 
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                    //MenuInflater inflater = mode.getMenuInflater();
-                    //inflater.inflate(R.menu.menu_choice_items, menu);
                     return false;
                 }
 
@@ -165,10 +106,11 @@ public class MainActivity extends ActionBarActivity {
                 public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                     return false;
                 }
-            });
+           });
         }
 
         swipeListView.setSwipeListViewListener(new BaseSwipeListViewListener() {
+/*
             @Override
             public void onOpened(int position, boolean toRight) {
             }
@@ -204,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClickBackView(int position) {
                 Log.d("swipe", String.format("onClickBackView %d", position));
             }
-
+*/
             @Override
             public void onDismiss(int[] reverseSortedPositions) {
                 for (int position : reverseSortedPositions) {
@@ -221,38 +163,8 @@ public class MainActivity extends ActionBarActivity {
 
         new ListAppTask().execute();
 
-        //progressDialog = new ProgressDialog(this);
-        //progressDialog.setMessage(getString(R.string.loading));
-        //progressDialog.setCancelable(false);
-        //progressDialog.show();
-
-
-
-
-
-
-
-
-/*
-        if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            fragment = new SwipeRefreshListFragmentFragment();
-
-            transaction.replace(R.id.task_fragment, fragment);
-
-            transaction.commit();
-
-
-        }
-*/
-
-
-
 
         mFab = (FloatingActionButton)findViewById(R.id.fabbutton);
-
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,8 +173,6 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(intent, 1);
             }
         });
-
-
 
         LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -367,19 +277,15 @@ public class MainActivity extends ActionBarActivity {
             switch (data.getStringExtra("activityName"))
             {
                 case "addTaskActivity":
-                    int taskId = Integer.parseInt(data.getStringExtra("taskId"));
-
                     new ListAppTask().execute();
 
                     break;
                 case "modifyTAskActivity":
-
                     int position = Integer.parseInt(data.getStringExtra("position"));
 
                     swipeListView.closeAnimate(position);
 
                     new ListAppTask().execute();
-
 
                     break;
             }
@@ -387,9 +293,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void updateState(){
-
         completedTextView.setText(String.format("%d %s", completedCount, getString(R.string.completed)));
-        outstandingTextTiew.setText(String.format("%d %s", outstandingCount, getString(R.string.outstanding)));
+        outstandingTextView.setText(String.format("%d %s", outstandingCount, getString(R.string.outstanding)));
     }
 
     private void reload() {
@@ -422,12 +327,9 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-
     public class ListAppTask extends AsyncTask<Void, Void, List<TaskInfo>> {
 
         protected List<TaskInfo> doInBackground(Void... args) {
-
-            //db = new DBContactHelper(getApplicationContext());
             List<TaskInfo> data = db.getAllTask();
 
             completedCount = 0;

@@ -5,24 +5,13 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import java.util.Calendar;
 
 import kr.co.nexon.todoplus.Entity.TaskInfo;
 import kr.co.nexon.todoplus.Enums.DateType;
-import kr.co.nexon.todoplus.Helper.CommonHelper;
-import kr.co.nexon.todoplus.Helper.DBContactHelper;
-
+import kr.co.nexon.todoplus.Helper.*;
 
 public class ModifyTaskActivity extends ActionBarActivity {
     public static ModifyTaskActivity modifyTaskActivity;
@@ -68,11 +57,7 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         db = new DBContactHelper(this);
 
-        try {
-            taskInfo = db.getTask(id);
-        } catch (Exception ex) {
-            Log.e("ModifyTaskActivity", ex.getMessage());
-        }
+        taskInfo = db.getTask(id);
 
         editText = (EditText)findViewById(R.id.edit_Text);
         editText.setText(taskInfo.getName());
@@ -89,10 +74,7 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
                     Intent intent = new Intent();
                     intent.putExtra("activityName", "modifyTAskActivity");
-                    intent.putExtra("taskId", String.valueOf(taskInfo.getId()));
                     intent.putExtra("position", String.valueOf(position));
-
-
                     setResult(RESULT_OK,intent);
 
                     finish();
@@ -110,28 +92,21 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         DateType dateType = DateType.values()[taskInfo.getDateType()];
 
-        switch (dateType) {
-            case None:
-                setDateTypeDisplay(dateType);
+        if (dateType == DateType.None) {
+            setDateTypeDisplay(dateType);
+        } else {
+            Calendar cal = taskInfo.getPeriod();
+            Calendar todayCal = Calendar.getInstance();
 
-                break;
-            case Calendar:
-            case Today:
-            case Tomorrow:
-                Calendar cal = taskInfo.getPeriod();
-                Calendar todayCal = Calendar.getInstance();
+            long diffDay = CommonHelper.getDateDiff(cal, todayCal);
 
-                long diffDay = CommonHelper.getDateDiff(cal, todayCal);
-
-                if (diffDay == 0) {
-                    setDateTypeDisplay(DateType.Today);
-                } else if (diffDay == 1) {
-                    setDateTypeDisplay(DateType.Tomorrow);
-                } else {
-                    setDateTypeDisplay(DateType.Calendar);
-                }
-
-                break;
+            if (diffDay == 0) {
+                setDateTypeDisplay(DateType.Today);
+            } else if (diffDay == 1) {
+                setDateTypeDisplay(DateType.Tomorrow);
+            } else {
+                setDateTypeDisplay(DateType.Calendar);
+            }
         }
 
         final DatePickerDialog.OnDateSetListener dateListener = new DatePickerDialog.OnDateSetListener() {
@@ -224,25 +199,13 @@ public class ModifyTaskActivity extends ActionBarActivity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

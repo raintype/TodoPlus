@@ -74,16 +74,4 @@ public class TaskInfo {
         completed = false;
         useYN = true;
     }
-
-    public  TaskInfo(String name, Calendar period, int dateType, boolean important, boolean secret, boolean completed, boolean useYN) {
-        this.name = name;
-        this.period = period;
-        this.dateType = dateType;
-        this.important = important;
-        this.secret = secret;
-        this.completed = completed;
-        this.useYN = useYN;
-    }
-
-
 }
