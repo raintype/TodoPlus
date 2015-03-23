@@ -51,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
     SettingInfo settingInfo;
 
-    private static boolean isFirstRun = true;
+    public static boolean isFirstRun = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
