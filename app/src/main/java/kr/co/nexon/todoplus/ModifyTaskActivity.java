@@ -17,13 +17,10 @@ public class ModifyTaskActivity extends ActionBarActivity {
     public static ModifyTaskActivity modifyTaskActivity;
 
     EditText editText;
-
     Button resultButton;
-
     TextView today;
     TextView tomorrow;
     TextView none;
-
     ImageView calendar;
     ImageView star;
     ImageView lock;
@@ -43,15 +40,12 @@ public class ModifyTaskActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.modify_task);
 
-
         Intent intent = getIntent();
         int id = intent.getIntExtra("taskId", -1);
 
         position = intent.getIntExtra("position", -1);
 
         if ( id == -1) {
-            // Todo Error Message Display
-
             finish();
         }
 
@@ -141,36 +135,17 @@ public class ModifyTaskActivity extends ActionBarActivity {
 
         today.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.Today;
-                setDateTypeDisplay(dateType);
-
-                Calendar calendar = Calendar.getInstance();
-
-                taskInfo.setDateType(dateType.ordinal());
-                taskInfo.setPeriod(calendar);
+                ClickDate(DateType.Today);
             }
         });
-
         tomorrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.Tomorrow;
-                setDateTypeDisplay(dateType);
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DAY_OF_WEEK, 1);
-
-                taskInfo.setDateType(dateType.ordinal());
-                taskInfo.setPeriod(calendar);
+                ClickDate(DateType.Tomorrow);
             }
         });
-
-
         none.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.None;
-                setDateTypeDisplay(dateType);
-
-                taskInfo.setDateType(dateType.ordinal());
+                ClickDate(DateType.None);
             }
         });
 
@@ -227,7 +202,6 @@ public class ModifyTaskActivity extends ActionBarActivity {
                 calendar.setImageResource(R.drawable.ic_cal_off);
                 today.setTextColor(notSelectedTextColor);
                 tomorrow.setTextColor(notSelectedTextColor);
-
                 none.setTextColor(selectedTextColor);
                 break;
             case Calendar:
@@ -251,7 +225,6 @@ public class ModifyTaskActivity extends ActionBarActivity {
         }
     }
 
-
     private void setStarDisplay(boolean isImportant) {
         if (isImportant) {
             star.setImageResource(R.drawable.ic_star_on);
@@ -265,6 +238,26 @@ public class ModifyTaskActivity extends ActionBarActivity {
             lock.setImageResource(R.drawable.ic_lock_on);
         } else {
             lock.setImageResource(R.drawable.ic_lock_off);
+        }
+    }
+
+    private  void ClickDate(DateType dateType){
+        Calendar calendar = Calendar.getInstance();
+        setDateTypeDisplay(dateType);
+        taskInfo.setDateType(dateType.ordinal());
+
+        switch (dateType)
+        {
+            case Today:
+                taskInfo.setPeriod(calendar);
+
+                break;
+            case Tomorrow:
+                calendar.add(Calendar.DAY_OF_WEEK, 1);
+                taskInfo.setPeriod(calendar);
+                break;
+            default:
+                break;
         }
     }
 }

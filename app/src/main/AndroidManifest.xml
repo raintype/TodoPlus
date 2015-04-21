@@ -57,6 +57,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".item_text"
+            android:label="@string/title_activity_item_text" >
+        </activity>
     </application>
 
 </manifest>

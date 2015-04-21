@@ -1,23 +1,12 @@
 package kr.co.nexon.todoplus;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
 import java.util.Calendar;
 
@@ -25,18 +14,14 @@ import kr.co.nexon.todoplus.Entity.TaskInfo;
 import kr.co.nexon.todoplus.Enums.DateType;
 import kr.co.nexon.todoplus.Helper.DBContactHelper;
 
-
 public class AddTaskActivity extends ActionBarActivity {
     public static AddTaskActivity addTaskActivity;
 
     EditText editText;
-
     Button resultButton;
-
     TextView today;
     TextView tomorrow;
     TextView none;
-
     ImageView calendar;
     ImageView star;
     ImageView lock;
@@ -119,35 +104,17 @@ public class AddTaskActivity extends ActionBarActivity {
 
         today.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.Today;
-                setDateTypeDisplay(dateType);
-
-                Calendar calendar = Calendar.getInstance();
-
-                taskInfo.setDateType(dateType.ordinal());
-                taskInfo.setPeriod(calendar);
+                ClickDate(DateType.Today);
             }
         });
-
         tomorrow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.Tomorrow;
-                setDateTypeDisplay(dateType);
-
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DAY_OF_WEEK, 1);
-
-                taskInfo.setDateType(dateType.ordinal());
-                taskInfo.setPeriod(calendar);
+                ClickDate(DateType.Tomorrow);
             }
         });
-
         none.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DateType dateType = DateType.None;
-                setDateTypeDisplay(dateType);
-
-                taskInfo.setDateType(dateType.ordinal());
+                ClickDate(DateType.None);
             }
         });
 
@@ -170,7 +137,6 @@ public class AddTaskActivity extends ActionBarActivity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
@@ -181,7 +147,6 @@ public class AddTaskActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // 이벤트 처리
     @Override
     public boolean onSupportNavigateUp()
     {
@@ -236,6 +201,26 @@ public class AddTaskActivity extends ActionBarActivity {
             lock.setImageResource(R.drawable.ic_lock_on);
         } else {
             lock.setImageResource(R.drawable.ic_lock_off);
+        }
+    }
+
+    private  void ClickDate(DateType dateType){
+        Calendar calendar = Calendar.getInstance();
+        setDateTypeDisplay(dateType);
+        taskInfo.setDateType(dateType.ordinal());
+
+        switch (dateType)
+        {
+            case Today:
+                taskInfo.setPeriod(calendar);
+
+                break;
+            case Tomorrow:
+                calendar.add(Calendar.DAY_OF_WEEK, 1);
+                taskInfo.setPeriod(calendar);
+                break;
+            default:
+                break;
         }
     }
 }

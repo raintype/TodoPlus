@@ -1,30 +1,20 @@
 package kr.co.nexon.todoplus;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Vibrator;
+import android.content.*;
+import android.os.*;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import android.view.*;
+import android.widget.*;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
@@ -42,20 +32,12 @@ import kr.co.nexon.todoplus.Helper.DBContactHelper;
 public class LockScreenActivity extends Activity {
     Context context = this;
     private ArrayList<TaskInfo> taskInfoArrayList;
-
-    private ShareActionProvider mShareActionProvider;
-
     SettingInfo settingInfo;
 
     Timer mTimer;
 
     TextView dateTextView;
     TextView timeTextView;
-
-    float xAtDown;
-    float xAtUp;
-    int count = 0;
-
     ImageView navigator;
     ImageView navigator_left;
     ImageView navigator_right;
@@ -64,7 +46,6 @@ public class LockScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
-
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -84,7 +65,6 @@ public class LockScreenActivity extends Activity {
             mTimer.schedule(timerTask, 500, 1000);
         }
 
-
         // Step2. Display Todo
         taskInfoArrayList = getTaskList();
 
@@ -96,10 +76,6 @@ public class LockScreenActivity extends Activity {
         // Finally set the adapter so the ViewPager can display items
         vp.setAdapter(mPagerAdapter);
 
-
-
-
-
         // Step 4. Display Navigator
         navigator = (ImageView)findViewById(R.id.navigator);
         navigator_left = (ImageView)findViewById(R.id.navigator_left);
@@ -110,7 +86,6 @@ public class LockScreenActivity extends Activity {
         // center를 기준으로 왼쪽(위)으로 이동 시 +1 증가
         // center를 기준으로 오른쪽(아래)으로 이동 시 -1 감소
         navigator.scrollTo(0, 0);
-
         navigator.setOnTouchListener(new View.OnTouchListener() {
             int prePositionX = 0;
 
@@ -193,32 +168,15 @@ public class LockScreenActivity extends Activity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                // 이전 버튼 막기
+            case KeyEvent.KEYCODE_BACK: // 이전 버튼 막기
                 return true;
         }
 
@@ -227,15 +185,12 @@ public class LockScreenActivity extends Activity {
 
     private ArrayList<TaskInfo> getTaskList() {
         DBContactHelper db = new DBContactHelper(this);
-        ArrayList<TaskInfo> taskInfoArrayList = null;
-
-        taskInfoArrayList = db.getLockScreenTask();
+        ArrayList<TaskInfo> taskInfoArrayList = db.getLockScreenTask();
 
         return taskInfoArrayList;
     }
 
-    private final ViewPager.OnPageChangeListener mOnPageChangeListener
-            = new ViewPager.OnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -244,7 +199,7 @@ public class LockScreenActivity extends Activity {
 
         @Override
         public void onPageSelected(int position) {
-            setShareIntent(position);
+            // NO-OP
         }
 
         @Override
@@ -303,7 +258,6 @@ public class LockScreenActivity extends Activity {
                         long diffDay = CommonHelper.getDateDiff(cal, today);
 
                         String subText;
-
                         if (diffDay == 0) {
                             subText = "Today";
                         } else if (diffDay == 1) {
@@ -330,7 +284,6 @@ public class LockScreenActivity extends Activity {
             } else {
                 textView.setText(taskInfo.getName());
             }
-            //tv.setText(item.getName());
 
             // Add the view to the ViewPager
             container.addView(textView);
@@ -338,21 +291,6 @@ public class LockScreenActivity extends Activity {
 
         }
     };
-
-    private void setShareIntent(int position) {
-        // BEGIN_INCLUDE(update_sap)
-        if (mShareActionProvider != null) {
-            // Get the currently selected item, and retrieve it's share intent
-            TaskInfo item = taskInfoArrayList.get(position);
-            //Intent shareIntent = item.getShareIntent(LockScreenActivity.this);
-
-            // Now update the ShareActionProvider with the new share intent
-            //mShareActionProvider.setShareIntent(shareIntent);
-        }
-        // END_INCLUDE(update_sap)
-    }
-
-
 
     @Override
     protected void onDestroy() {

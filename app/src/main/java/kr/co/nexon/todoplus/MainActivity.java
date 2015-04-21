@@ -76,7 +76,6 @@ public class MainActivity extends ActionBarActivity {
 
         adapter = new PackageAdapter(this, taskInfoList);
 
-
         swipeListView = (SwipeListView) findViewById(R.id.example_lv_list);
 
         swipeListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -169,13 +168,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), AddTaskActivity.class);
-                intent.putExtra("state","Test");
                 startActivityForResult(intent, 1);
             }
         });
 
         LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -252,7 +249,6 @@ public class MainActivity extends ActionBarActivity {
                 // Title for AlertDialog
                 alert.setTitle(R.string.confirm);
                 // Icon for AlertDialog
-                //alert.setIcon(R.drawable.icon);
                 alert.show();
             }
         });
@@ -282,7 +278,6 @@ public class MainActivity extends ActionBarActivity {
                     break;
                 case "modifyTAskActivity":
                     int position = Integer.parseInt(data.getStringExtra("position"));
-
                     swipeListView.closeAnimate(position);
 
                     new ListAppTask().execute();
@@ -341,6 +336,7 @@ public class MainActivity extends ActionBarActivity {
                     outstandingCount++;
                 }
             }
+
             return data;
         }
 

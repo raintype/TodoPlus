@@ -71,5 +71,6 @@
 
     <string name="newTag">New!</string>
     <string name="discard">Discard</string>
+    <string name="title_activity_item_text">item_text</string>
 
 </resources>

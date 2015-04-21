@@ -1,25 +1,14 @@
 package kr.co.nexon.todoplus;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.graphics.*;
+import android.graphics.drawable.*;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.AbsListView;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -100,11 +89,6 @@ public class FloatingActionButton extends View {
 
     public void setDrawable(Drawable drawable) {
         mBitmap = ((BitmapDrawable) drawable).getBitmap();
-        invalidate();
-    }
-
-    public void setShadow(float radius, float dx, float dy, int color) {
-        mButtonPaint.setShadowLayer(radius, dx, dy, color);
         invalidate();
     }
 
